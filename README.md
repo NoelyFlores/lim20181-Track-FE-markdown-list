@@ -1,4 +1,44 @@
 # Markdown Links
+Para empezar a codificar instalo las herramientas que utilizare en el desarrollo de mi libreria. La instalación de eslint, jest y babel tomé como referencia al post de Lupo [Lupo](https://medium.com/laboratoria-developers/arquitectura-de-interfaces-web-parte-1-a41053c2a1f2) y de la documentación de [jest](https://jestjs.io/docs/en/getting-started) adicional a toda la información que existe en estos sitios tuve que configurar el archivo `.eslintr` agregue la propiedad
+```
+{
+"rules":{
+        "linebreak-style": 0
+      },
+"env": {
+        "jest": true
+    
+    },
+}
+  ```
+al archivo `package.json` agregue las siguientes propiedades
+  ```
+{
+"scripts": {
+    "eslint": "eslint --ext .js src/ test/",
+    "pretest": "eslint src test",
+    "test": "jest --coverage"
+  },
+"jest": {
+    "testURL": "http://localhost"
+  },
+ "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "jest": "^23.4.2"
+  }
+}
+  ```
+
+## Instalación de herramientas
+### Eslint
+Instalamos eslint en la consola con el comando `npm add -D eslint eslint-config-airbnb-base eslint-plugin-import` luego creamos el archivo `.eslintrc` 
+
+### Jest 
+### Babel
 
 ## Preámbulo
 
