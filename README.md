@@ -1,5 +1,8 @@
 # Markdown Links
-Para empezar a codificar instalo las herramientas que utilizare en el desarrollo de mi libreria. La instalación de eslint, jest y babel tomé como referencia al post de Lupo [Lupo](https://medium.com/laboratoria-developers/arquitectura-de-interfaces-web-parte-1-a41053c2a1f2) y de la documentación de [jest](https://jestjs.io/docs/en/getting-started) adicional a toda la información que existe en estos sitios tuve que configurar el archivo `.eslintr` agregue la propiedad
+Para empezar a codificar instalo las herramientas que utilizare en el desarrollo de mi libreria.
+ La instalación de eslint, jest y babel tomé como referencia al post de Lupo [Lupo](https://medium.com/laboratoria-developers/arquitectura-de-interfaces-web-parte-1-a41053c2a1f2)
+  y de la documentación de [jest](https://jestjs.io/docs/en/getting-started) adicional a toda la 
+  información que existe en estos sitios tuve que configurar el archivo `.eslintr` agregue la propiedad
 ```
 {
 "rules":{
@@ -37,8 +40,32 @@ al archivo `package.json` agregue las siguientes propiedades
 ### Eslint
 Instalamos eslint en la consola con el comando `npm add -D eslint eslint-config-airbnb-base eslint-plugin-import` luego creamos el archivo `.eslintrc` 
 
-### Jest 
-### Babel
+### Paquete de línea de comandos NodeJS
+El paquete de la linea de comandos convierte un archivo de javascript `index.js` en un paquete local ejecutable por `npm`. Esto me permite ejecutar el archivo js con `node` instalado localmente para hacer las pruevas durante el desarrollo de la libreria. Los pasos para su configuración son los siguientes.
+Añado los siguientes caracteres dentro del archivo `index.js`,esto permitira buscar al node ejecutable instalado localmente.
+```
+#!/usr/bin/env node 
+```
+Luego hace que capte todos los argumentos de la línea de comando que estara junto con el nombre del archivo, el argumento `args` sera utilizado como parametro de una funcion.
+```
+const [,, ...args] = process.argv;
+```
+Ahora creo un nombre para el scritp de la linea de comando en `package.json`, esto hace que simule que el archivo sea un paquete instalado en `node`.
+```
+ "bin": {
+    "md-links": "./index.js"
+  }
+```
+Por ultimo ejecutamos esta linea de comando en la consola 
+```
+npm link
+```
+Finalmente puedo ejecutar el scritp desde la linea de comando con el nombre que configure en package.json, para una mayor información detallada acreca del paquete de linea de comando te invita a visitar [aquí](https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e)
+### Axios
+Es un API que te permite hacer solicitudes http de forma mas simple, las solicitudes HTTP de node no tienen soporte para https
+```
+npm install axios
+```
 
 ## Preámbulo
 
