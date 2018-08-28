@@ -16,7 +16,7 @@
     "url": "git+https://github.com/Laboratoria/lim20181-Track-FE-markdown-list.git"
   },
   "bin": {
-    "md-links": "./index.js"
+    "md-links": "../cli.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,18 +24,23 @@
     "url": "https://github.com/Laboratoria/lim20181-Track-FE-markdown-list/issues"
   },
   "jest": {
-    "testURL": "http://localhost"
+    "testEnvironment": "node"
   },
   "homepage": "https://github.com/Laboratoria/lim20181-Track-FE-markdown-list#readme",
   "dependencies": {
-    "axios": "^0.18.0"
+    "async": "^2.6.1",
+    "axios": "^0.18.0",
+    "babel-register": "^6.26.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "jest": "^23.4.2"
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.5.0",
+    "superagent": "^3.8.3",
+    "supertest": "^3.1.0"
   }
 }

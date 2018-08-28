@@ -1,0 +1,1 @@
+Los tests unitarios [gitHub](https://noelygithub.github.io/) hjbchsbcg. deben cubrir un mínimo del 70% de _statements_z

@@ -1,17 +1,47 @@
-import sum from '../src/sum';
+import * as moduleMain from '../src/index';
 
-import filterURL from '../index';
-
-const assert = require('assert');
-
-describe('sum', () => {
-  it('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
+jest.setTimeout(6000);
+/* beforeEach(() => {
+  moduleMain.mdLinks('./test/prueba/prueba-dos/markdown.md', ['--validate']);
+}); */
+// afterEach(fn, timeout)
+test('Debería devolver un array de objetos para --validate', async (done) => {
+  await moduleMain.mdLinks('./test/prueba', ['--validate']).then((data) => {
+    expect(data).toEqual([
+      {
+        href: 'https://noelygithub.github.io/',
+        text: 'gitHub',
+        file: 'D:\\LABORATORIA\\PRUEVAS\\PROYECTO_MARKDOWN\\test\\prueba\\prueba.md',
+        status: 404,
+        statusText: 'Failed',
+      },
+      {
+        href: 'https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e',
+        text: 'aquí',
+        file: 'D:\\LABORATORIA\\PRUEVAS\\PROYECTO_MARKDOWN\\test\\prueba\\prueba-dos\\markdown.md',
+        status: 200,
+        statusText: 'OK',
+      }]);
+    done();
   });
 });
-describe('filterURL', () => {
-  it('deberia encontrar un 2 links', () => {
-    const text = '[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).';
-    assert.deepEqual(filterURL(text), (['[Node.js](https://nodejs.org/es/)', 'Chrome](https://developers.google.com/v8/).']), 'break');
+test('Debería devolver un array de objetos con propiedad total y unique de links status', async (done) => {
+  await moduleMain.mdLinks('D:\\LABORATORIA\\PRUEVAS\\PROYECTO_MARKDOWN\\test\\prueba\\prueba-dos\\markdown.md', ['--stats']).then((data) => {
+    expect(data).toEqual(expect.arrayContaining([{ total: 1, unique: 1 }]));
+    done();
   });
+});
+test('Debería devolver un array de objeto con total de links rotos', async (done) => {
+  await moduleMain.mdLinks('./test/prueba', ['--stats', '--validate']).then((data) => {
+    expect(data).toEqual(expect.arrayContaining([{ total: 2, unique: 2, broken: 1 }]));
+    done();
+  });
+});
+test('Debería devolver no se encontraron links', async (done) => {
+  expect(moduleMain.mdLinks('./test/prueba/vacio.md', ['--validate'])).rejects.toEqual(expect.any(Object));
+  done();
+});
+test('Debería devolver un error de ruta no encontrada', async (done) => {
+  await expect(moduleMain.mdLinks('./test/prueba/prueba.m', ['--validate'])).rejects.toEqual(expect.any(Object));
+  done();
 });
