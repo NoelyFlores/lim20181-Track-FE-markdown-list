@@ -4,43 +4,42 @@ const fileAsync = require('fs');
 
 const async = require('async');
 
+const getOption = (args, callback) => {
+  const option = {
+    validate: false,
+    stats: false,
+  };
+  if (args.filter(element => element === '--validate').length >= 1) { option.validate = true; }
+  if (args.filter(element => element === '--stats').length >= 1) { option.stats = true; }
+  if (args.filter(element => element === '--stats' || element === '--validate').length === 0) { console.log('Sugerencia: [ --validate, -- status ó --validate --status]'); }
+  callback(null, option);
+};
 const markdownAsync = (path, options) => {
-  const promise = new Promise((resolve) => {
+  const promise = new Promise((resolve, reject) => {
     async.waterfall(
       [
-        (callback) => { // insert arg option
-          if (options) {
-            moduleMain.getOption(options, (err, result) => {
-              if (!err) {
-                callback(null, result);
-              }
-            });
-          }
-        },
-        (option, callback) => { // insert path
+        (callback) => { // insert path
           const dirAbsolute = moduleMain.validateDirAbsolute(path);
           if (fileAsync.lstatSync(dirAbsolute).isFile()) {
             const filterMD = moduleMain.filterMarkdown([dirAbsolute]);
             if (filterMD.length === 0) {
-              console.log('El archivo no es un marcado de texto');
+              reject(new Error('El archivo no es un marcado de texto'));
             } else {
               moduleMain.getPath(dirAbsolute, (err, result) => {
-                if (!err) {
-                  callback(null, result);
-                }
+                callback(null, result);
               });
             }
           } else {
             moduleMain.getPathOfDirectory(dirAbsolute).then((response) => {
-              callback(null, response);
+              callback(null, response);// [readme.md, blam.md]
             });
           }
         },
         (option, callback) => { // insert links
-          if (option) {
+          if (option.length !== 0) {
             const tempLinks = [];
             let listinks;
-            option.path.forEach((file) => {
+            async.map(option, (file, callback2) => {
               fileAsync.readFile(file, 'utf-8', (err, content) => {
                 if (content !== '' || content !== null) {
                   listinks = moduleMain.filterURL(content);
@@ -52,52 +51,52 @@ const markdownAsync = (path, options) => {
                       const href = hrefCP[0].slice(1, hrefCP[0].length - 1);
                       tempLinks.push({ href, text, file });
                     });
-                    option.links = tempLinks;
                   }
                 }
+                callback2(null, tempLinks);
               });
+            }, (err) => {
+              callback(err, tempLinks);
             });
-            setTimeout(() => {
-              if (option.links.length === 0) {
-                console.log('No se encontraron links o archivos .md');
-              }
-              callback(null, option);
-            }, 200);
+          } else {
+            reject(new Error('No existen archivos markdown'));
           }
         },
         (option, callback) => { // insert stats and links broken
-          if (options.length === 0) {
-            callback(null, option.links);
-          }
-          if (option.validate === true && option.stats === false) {
-            moduleMain.connectHttp(option.links, () => {
-              callback(null, option.links);
-            });
-          }
-          if (option.stats === true && option.validate === false) {
-            moduleMain.getStatsLinks(option.links, () => {
-              callback(null, [{ total: option.total, unique: option.unique }]);
-            });
-          }
-          if (option.validate === true && option.stats === true) {
-            moduleMain.connectHttp(option.links, (err) => {
-              if (!err) {
-                moduleMain.getStatsLinks(option.links, (Err) => {
-                  if (!Err) {
-                    moduleMain.getBrokenLinks(option.links, (error) => {
-                      if (!error) {
-                        callback(null, [
-                          { total: option.total, unique: option.unique, broken: option.broken }]);
-                      }
-                    });
-                  }
+          if (option.length !== 0) {
+            if (options.validate === false && options.stats === false) {
+              callback(null, option);
+            }
+            if (options.validate === true && options.stats === false) {
+              moduleMain.connectHttp(option, (err, arrayLinks) => {
+                callback(null, arrayLinks);
+              });
+            }
+            if (options.stats === true && options.validate === false) {
+              moduleMain.getStatsLinks(option, (err, arrayStat) => {
+                callback(null, arrayStat);
+              });
+            }
+            if (options.validate === true && options.stats === true) {
+              moduleMain.connectHttp(option, (err, arrayLinks) => {
+                moduleMain.getStatsLinks(arrayLinks, (Err, arrayStats) => {
+                  moduleMain.getBrokenLinks(arrayLinks, (error, result) => {
+                    callback(null, [
+                      {
+                        total: arrayStats[0].total,
+                        unique: arrayStats[0].unique,
+                        broken: result[0].broken,
+                      }]);
+                  });
                 });
-              }
-            });
+              });
+            }
+          } else {
+            reject(new Error('No contro links en la direccion'));
           }
         },
       ], (err, result) => {
-        if (!err) resolve(result);
+        resolve(result);
       },
     );
   });
@@ -105,4 +104,5 @@ const markdownAsync = (path, options) => {
 };
 module.exports = {
   markdownAsync,
+  getOption,
 };

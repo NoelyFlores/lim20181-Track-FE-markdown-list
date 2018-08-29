@@ -12,7 +12,7 @@ Es una librería que te permite extraer la información de los links que se encu
 npm install --save 
 ``` 
 ### Línea de comando
-Para poder empezar a verificar los archivos markdown tendrá que seguir el siguiente formato.
+Antes de empezar a verificar los archivos markdown tendrá que seguir el siguiente formato.
 ```
 md-links </route/> [options]
 ```
@@ -24,8 +24,6 @@ Donde:
   - `--validate`: Muestra los links con sus respectivas validaciones http, direccion y texto.
   - `--validate --stats` o `--stats --validate`: Muestra los resultados de la opción `stats` más el número de links rotos.
 ### Demo
-
-## Versiones de librería
 
 ## Documentación
 
@@ -105,19 +103,8 @@ const async = require("async");
 ## Arquitectura 
 [arquitectura](http://subirimagen.me/uploads/20180823103623.PNG)
 
-## Estructura de datos
-La estructura de datos se va construye de acuerdo a las condiciones que se requiere en la terminal. Si en el segundo parámetro se encuentra el `--validate` agregara dos elementos a la propiedad links del objeto opción, en el caso de encontrar un `--stats` se hará un push al mismo objeto con las propiedades total y unique. El ultimo caso, si en el segundo y tercer argumento se encuentra los valores `--validate` y `stats` hará las dos instrucciones anteriores además insertar la propiedad broken al objeto option.
-```json
-const option = [{
-  links: {[href, text, file, status, statusText]},
-  path: [dir],
-  validate: false,
-  stats: false,
-  total: 0,
-  unique: 0,
-  broken: null,
-}]
-```
-### Test
-
-## Planificacion
+## Test
+[Test asíncrono](http://subirimagen.me/uploads/20180829115333.PNG)
+## Planificación
+[sprint del proyecto](http://subirimagen.me/uploads/20180829115644.PNG)
+[Tablero Kanban](http://subirimagen.me/uploads/20180829115750.PNG)
