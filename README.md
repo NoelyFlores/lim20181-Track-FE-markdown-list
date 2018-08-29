@@ -5,11 +5,11 @@ Es una librería que te permite extraer la información de los links que se encu
 
 ## Guías de uso
 ### Versión
-`v1.0.0`
+`0.1.2`
 
 ### Instalación
 ```
-npm install --save 
+npm i @noely/md-links
 ``` 
 ### Línea de comando
 Antes de empezar a verificar los archivos markdown tendrá que seguir el siguiente formato.
@@ -24,7 +24,32 @@ Donde:
   - `--validate`: Muestra los links con sus respectivas validaciones http, direccion y texto.
   - `--validate --stats` o `--stats --validate`: Muestra los resultados de la opción `stats` más el número de links rotos.
 ### Demo
+- Instalación
 
+![install](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40337730_1684443978349862_7133657369728253952_n.png?_nc_cat=0&_nc_eui2=AeFeqZG7V1wGHzKQBp8gQklu37rp2FKOK3v1cSkn0pYAkaqLQmb3ZL6_4px1jYB3ecliJ6DKVRwNn7ybTUmchSXC__jYP0M5_xSnuUFDuOtcnA&oh=6ff56b1524d435c4e7ee25c1ae196700&oe=5C01EF45)
+
+- Opción por default `md-links <route>`
+
+![default](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40454743_2302736739742955_9189736348368502784_n.png?_nc_cat=0&_nc_eui2=AeHrN9CLBSxlfLCQTTfbXf0U8PaE2_3zIVYgNI-bZfPdJqb0rk6nbIuyqqewFHd_75OnwpUVKSS3wpMH3wGg5pTm8GLbTtwJ2L58Qpf-Ap4tmA&oh=9cb630db595722d843b816d24c1bc473&oe=5C02D7E9)
+- Opción `md-links <route> --validate`
+
+![validacion](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40358216_845105279210296_2040516589844955136_n.png?_nc_cat=0&_nc_eui2=AeE9hxleQ4RZk6pMWFFg-3DY1OV-ktiUY2FGhgzubT2NFbzhsYWzZtbOT1E1Pyq2MjAC6Wi969l8LUkckS79DNxS7U26Hbmn6NfA_FP91SYy7g&oh=fe884db1d54db36928faabc9c96bd669&oe=5BEDEE37)
+- Opción `md-links <route> --stats`
+
+![stats](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40297187_454657501698035_5215478572507987968_n.png?_nc_cat=0&_nc_eui2=AeEPTC-ZRavE4uCB7YeUv6xQVTFe_3o5crD6Pxra8BnzLfrboN5mbwR9hYYWwvJWHv29ObmVfl9odmOGARAwcg6VPCLe4-dTCAmRgs5rG9OwlA&oh=3fccbc90c48aefc4e53f8be50bf18120&oe=5BFD5125)
+- optión `md-links <route> --validate --stats`
+
+![twoption](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40325264_332091900896089_8177192632900911104_n.png?_nc_cat=0&_nc_eui2=AeGYXDmVLVwFuIuNlwkeE56tNpNvPVZ45ihx8PPVWPLDgPWmLTWCTb4BsU33CrB3YEHlAscMiqTdthO3dfIzAjKtONJCfs2Sas1yCIkY0MUCJQ&oh=9097b6f3b5441c2ee2ffe4416502893c&oe=5C32E83F)
+### Validación
+
+Md-links intenta controlar todas los errores que puede ingresar como argumento al terminal, las validaciones estan p:
+- Cuando no encuentra archivos markdown
+- La ruta no existe
+- No es un jarchivo .md
+- Sugerencias de uso.
+Ejemplo
+- Cuando no encuentra links en una dirección
+![failed](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40449316_243278373052176_3195875222104309760_n.png?_nc_cat=0&_nc_eui2=AeHWe8qVq_Lfb7_iADa_vxOXZ4ocQyk1dxgQlVMpC-HPz8uHh7O4Kseqxo_QmWR3MD-BpsCl5dYLWdtRgPAW4NCsHPF5MPvjhP5k20jZiGtLJw&oh=3058a7694bb6b9846c26c422e2f0b234&oe=5BFC16E3)
 ## Documentación
 
 ### Herramientas de trabajo
@@ -101,10 +126,14 @@ Luego configuro en mi archivo
 const async = require("async");
 ```
 ## Arquitectura 
-[arquitectura](http://subirimagen.me/uploads/20180823103623.PNG)
+![arquitectura](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40313215_459215017924509_6399351385271304192_n.png?_nc_cat=0&_nc_eui2=AeGwoQQuobsc2vmKPJtzidpsETMbGmgASEG7ojmcetLUUZxlYxFMvDCn2oMo-iR8E9wR-R4mr8B3-WAgResNdC8CbswRAM6js9d1D1wghIRWsw&oh=f9105b423c5e9eacb6b4af6f5390ef82&oe=5BF73282)
 
 ## Test
-[Test asíncrono](http://subirimagen.me/uploads/20180829115333.PNG)
+![Test asíncrono](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40330309_1842087795885476_1121814946267529216_n.png?_nc_cat=0&_nc_eui2=AeHzB7QhR5fSy2vUITlZB4HTBCPHM3gmRn8NPTO5G6KLZIjaP4wGOKk4GygL4Yz06YvNxfJkqiDtE1ayhd0hvKOCdTrUAISP601ISF2oKcGolA&oh=691e380f09cced140bed5b9ce9d56e86&oe=5BF4CC7B)
 ## Planificación
-[sprint del proyecto](http://subirimagen.me/uploads/20180829115644.PNG)
-[Tablero Kanban](http://subirimagen.me/uploads/20180829115750.PNG)
+- Sprint de proyecto
+
+![sprint del proyecto](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40352530_454920751674606_7162932210415173632_n.png?_nc_cat=0&_nc_eui2=AeFr7nAm4QmfDrXmvPrOfQk4GDbmuyiJ6qcGa8_pvAPVjyVCR4d7dMkOw1tvOD8-A73eSxSVYpE7x52_y_15qilG1wQev8_gMohOEGglW0tqwQ&oh=49a93037c41938197dafe95d0f54f923&oe=5BFAAA3B)
+- Tablero kanban
+
+![Tablero Kanban](https://scontent-scl1-1.xx.fbcdn.net/v/t1.15752-9/40377622_948337375359874_5112667213039403008_n.png?_nc_cat=0&_nc_eui2=AeGA6RpebpekWbXO6LCo_u2mp4pdL0bvWLPQlKDL5gWrjSqIIP0UPIrqq1j5zzoTxuQ_odExlcEPWDo8aAKivar4J1mdPYaiFxprOFtSLs11bQ&oh=594f5fee730431792f248b47925c9827&oe=5C2D5661)
