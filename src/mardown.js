@@ -18,24 +18,22 @@ const markdownAsync = (path, options) => {
           }
         },
         (option, callback) => { // insert path
-          if (option.validate === true || option.stats === true) {
-            const dirAbsolute = moduleMain.validateDirAbsolute(path);
-            if (fileAsync.lstatSync(dirAbsolute).isFile()) {
-              const filterMD = moduleMain.filterMarkdown([dirAbsolute]);
-              if (filterMD.length === 0) {
-                console.log('El archivo no es un marcado de texto');
-              } else {
-                moduleMain.getPath(dirAbsolute, (err, result) => {
-                  if (!err) {
-                    callback(null, result);
-                  }
-                });
-              }
+          const dirAbsolute = moduleMain.validateDirAbsolute(path);
+          if (fileAsync.lstatSync(dirAbsolute).isFile()) {
+            const filterMD = moduleMain.filterMarkdown([dirAbsolute]);
+            if (filterMD.length === 0) {
+              console.log('El archivo no es un marcado de texto');
             } else {
-              moduleMain.getPathOfDirectory(dirAbsolute).then((response) => {
-                callback(null, response);
+              moduleMain.getPath(dirAbsolute, (err, result) => {
+                if (!err) {
+                  callback(null, result);
+                }
               });
             }
+          } else {
+            moduleMain.getPathOfDirectory(dirAbsolute).then((response) => {
+              callback(null, response);
+            });
           }
         },
         (option, callback) => { // insert links
@@ -68,6 +66,9 @@ const markdownAsync = (path, options) => {
           }
         },
         (option, callback) => { // insert stats and links broken
+          if (options.length === 0) {
+            callback(null, option.links);
+          }
           if (option.validate === true && option.stats === false) {
             moduleMain.connectHttp(option.links, () => {
               callback(null, option.links);

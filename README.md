@@ -1,47 +1,40 @@
 # Markdown Links
 
-## Descripcíon General
+## Descripción General
+Es una librería que te permite extraer la información de los links que se encuentra dentro de un marcador de texto que a su vez puede estar ubicado dentro de un archivo determinado. Los resultados se obtienen de acuerdo a la especificación que se desee; como las listas de todos los links con sus respectivas validaciones (http y https) a través del uso de la librería axios, la estadística del total de links, repeticiones y links inválidos.
 
-## Instrucciones de instalación
-#### Options
+## Guías de uso
+### Versión
+`v1.0.0`
 
-##### `--validate`
-
-```sh
-$ md-links ./some/example.md --validate
-./some/example.md http://algo.com/2/3/ ok 200 Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
-./some/example.md http://google.com/ ok 301 Google
+### Instalación
 ```
-
-
-##### `--stats`
-
-```sh
-$ md-links ./some/example.md --stats
-Total: 3
-Unique: 3
+npm install --save 
+``` 
+### Línea de comando
+Para poder empezar a verificar los archivos markdown tendrá que seguir el siguiente formato.
 ```
-##### `--validate --stats`
-
-```sh
-$ md-links ./some/example.md --stats --validate
-Total: 3
-Unique: 3
-Broken: 1
+md-links </route/> [options]
 ```
+Donde:
+- `md-links`: Es quien invoca la librería.
+- `route`: Es la dirección de la carpeta o archivo a examinar, acepta rutas relativas y absolutas.
+- `options`: Son las opciones a evaluar pueden ser 
+  - `--stats `: Devuelve el número total de los links encontrados y el número de links únicos
+  - `--validate`: Muestra los links con sus respectivas validaciones http, direccion y texto.
+  - `--validate --stats` o `--stats --validate`: Muestra los resultados de la opción `stats` más el número de links rotos.
+### Demo
 
-## Versiones de libreria
+## Versiones de librería
 
 ## Documentación
 
 ### Herramientas de trabajo
-Para empezar a desarrollar la libreria en NodeJS recopilo toda la informacion necesaria acerca de las herramientas que voy a utilizar y luego instalo las dependencias.
-Las herramientas que escogi son `Eslint`, `Jest`, `Babel`, `axios` y `npm Async`
-El linter me ayudara a evaluar los patrones de codigo en ES Modules
-La instalación de eslint, jest y babel tomé como referencia al post de Lupo [Lupo](https://medium.com/laboratoria-developers/arquitectura-de-interfaces-web-parte-1-a41053c2a1f2)
-  y de la documentación de [jest](https://jestjs.io/docs/en/getting-started) adicional a toda la 
-  información que existe en estos sitios tuve que configurar el archivo `.eslintr` agregando las siguientes propiedades.
+Para empezar a desarrollar la librería en NodeJS recopilo toda la información necesaria acerca de las herramientas que voy a utilizar y luego instalo las dependencias.
+Las herramientas que escogí son `Eslint`, `Jest`, `Babel`, `axios` y `npm Async`
+El linter me ayudara a evaluar los patrones de código en ES Modules
+La instalación de eslint, jest y babel tomé como referencia al post de [Lupo Montero](https://medium.com/laboratoria-developers/arquitectura-de-interfaces-web-parte-1-a41053c2a1f2)
+  y de la documentación de [jest](https://jestjs.io/docs/en/getting-started) adicional a toda la información que existe en estos sitios tuve que configurar el archivo `.eslintr` agregando las siguientes propiedades.
 ```
 {
 "rules":{
@@ -76,26 +69,26 @@ al archivo `package.json` agregue las siguientes propiedades
   ```
 ### Paquete de línea de comandos NodeJS
 
-El paquete de la linea de comandos convierte un archivo de javascript `index.js` en un paquete local ejecutable por `npm`. Esto me permite ejecutar el archivo .js con `node` instalado localmente para hacer las pruevas durante el desarrollo de la libreria. Los pasos para su configuración son los siguientes.
-Añado los siguientes caracteres dentro del archivo `index.js`,esto permitira buscar al node ejecutable instalado localmente.
+El paquete de la línea de comandos convierte un archivo de JavaScript `index.js` en un paquete local ejecutable por `npm`. Esto me permite ejecutar el archivo .js con `node` instalado localmente para hacer las pruebas durante el desarrollo de la librería. Los pasos para su configuración son los siguientes.
+Añado los siguientes caracteres dentro del archivo `index.js`,esto permitirá buscar al node ejecutable instalado localmente.
 ```
 #!/usr/bin/env node 
 ```
-Luego todos los argumentos ingresados por la línea de comando estara almacenado como un array, el argumento `args` sera utilizado como parametro de una funcion.
+Luego todos los argumentos ingresados por la línea de comando estara almacenado como un array, el argumento `args` será utilizado como parámetro de una función.
 ```
 const [,, ...args] = process.argv;
 ```
-Ahora creo un nombre para el scritp de la linea de comando en `package.json`, esto hace que simule que el archivo sea un paquete instalado en `node`.
+Ahora creo un nombre para el script de la línea de comando en `package.json`, esto hace que simule que el archivo sea un paquete instalado en `node`.
 ```
  "bin": {
     "md-links": "./cli.js"
   }
 ```
-Por ultimo ejecutamos esta linea de comando en el terminal
+Por ultimo ejecutamos esta línea de comando en el terminal
 ```
 npm link
 ```
-Finalmente puedo ejecutar el scritp desde la linea de comando con el nombre que configure en package.json, para mayor información a cerca del paquete de linea de comando te invito a visitar [aquí](https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e)
+Finalmente puedo ejecutar el script desde la línea de comando con el nombre que configure en package.json, para mayor información acerca del paquete de línea de comando te invito a visitar [aquí](https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e)
 
 ###  Instalacion axios
 ```
@@ -112,9 +105,8 @@ const async = require("async");
 ## Arquitectura 
 [arquitectura](http://subirimagen.me/uploads/20180823103623.PNG)
 
-
 ## Estructura de datos
-La estructura de datos se va construye de acuerdo a las condiciones que se requiere en la terminal. Si en el segundo parametro se encuentra el `--validate` agregara dos elementos a la propiedad links del objeto option, en el caso de encontrar un `--stats` se hara un push al mismo objeto con las propiedades total y unique. El ultimo caso, si en el segundo y tercer argumento se encuentra los valores `--validate` y `stats`hara las dos instrucciones anteriores ademas insertar la propiedad broken al objeto option.
+La estructura de datos se va construye de acuerdo a las condiciones que se requiere en la terminal. Si en el segundo parámetro se encuentra el `--validate` agregara dos elementos a la propiedad links del objeto opción, en el caso de encontrar un `--stats` se hará un push al mismo objeto con las propiedades total y unique. El ultimo caso, si en el segundo y tercer argumento se encuentra los valores `--validate` y `stats` hará las dos instrucciones anteriores además insertar la propiedad broken al objeto option.
 ```json
 const option = [{
   links: {[href, text, file, status, statusText]},
@@ -129,10 +121,3 @@ const option = [{
 ### Test
 
 ## Planificacion
-
-- `path`: Ruta absoluta o relativa al archivo o directorio. Si la ruta pasada es relativa, debe resolverse como relativa al directorio desde donde se invoca node - _currentworking directory_).
-
-
-
-
-
